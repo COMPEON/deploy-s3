@@ -1,0 +1,9 @@
+name: 'COMPEON Deploy'
+description: 'Greet someone and record the time'
+inputs:
+  provider: # [ npm, s3 ]
+    description: 'The hosting provider to deploy to'
+    required: true
+runs:
+  using: 'node12'
+  main: 'src/main.js'
