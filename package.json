@@ -4,11 +4,15 @@
   "main": "src/main.js",
   "dependencies": {
     "@actions/core": "^1.4.0",
-    "@actions/github": "^5.0.0"
+    "@actions/github": "^5.0.0",
+    "execa": "^5.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.0.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.js"
   },
   "private": true
 }
