@@ -11,11 +11,11 @@ const ENV_KEYS = [
 const PARAMS_REQUIRED = ['bucket', 'source']
 const PARAMS_OPTIONAL = [...ENV_KEYS]
 
-const validate = () => makeValidator(PARAMS_REQUIRED, PARAMS_OPTIONAL)
+const validateParams = () => makeValidator(PARAMS_REQUIRED, PARAMS_OPTIONAL)
 
 class S3Provider {
     constructor() {
-        this.params = validate()
+        this.params = validateParams()
     }
 
     async deploy() {
@@ -24,10 +24,14 @@ class S3Provider {
         const { bucket, source } = this.params
         const bucketUri = `s3://${bucket}`
 
-        await execa('aws', ['s3', 'sync', source, bucketUri], {
+        const awsSyncOutput = await execa('aws', ['s3', 'sync', source, bucketUri], {
             preferLocal: true,
+            extendEnv: true,
+            all: true,
             env
         })
+
+        console.log(awsSyncOutput.all)
     }
 }
 
