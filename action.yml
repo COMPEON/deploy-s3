@@ -1,5 +1,5 @@
-name: 'COMPEON Deploy'
-description: 'Greet someone and record the time'
+name: 'COMPEON Deploy S3'
+description: 'Deploy code to Amazon S3'
 inputs:
   bucket:
     description: 'Name of the S3 bucket'
@@ -19,3 +19,6 @@ inputs:
 runs:
   using: 'node12'
   main: 'src/main.js'
+branding:
+    icon: upload-cloud
+    color: blue
