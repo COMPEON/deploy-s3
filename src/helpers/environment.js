@@ -1,7 +1,10 @@
-function makeEnvironment(params, allowedKeys) {
+function makeEnvironment(params, allowedKeys, transformKey) {
     const filteredKeyValuePairs = Object.entries(params)
         .filter(([key,]) => allowedKeys.includes(key))
-    return Object.fromEntries(filteredKeyValuePairs)
+    const transformedKeyValuePairs = transformKey !== undefined
+        ? filteredKeyValuePairs.map(([key, value]) => [transformKey(key), value])
+        : filteredKeyValuePairs
+    return Object.fromEntries(transformedKeyValuePairs)
 }
 
 module.exports = makeEnvironment

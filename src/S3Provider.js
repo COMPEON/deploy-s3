@@ -1,6 +1,6 @@
 const execa = require('execa')
 
-const { makeValidator, makeEnvironment } = require('./helpers')
+const { makeValidator, makeEnvironment, lispToUpperSnakeCase } = require('./helpers')
 
 const ENV_KEYS = [
     'aws-access-key-id',
@@ -19,7 +19,7 @@ class S3Provider {
     }
 
     async deploy() {
-        const env = makeEnvironment(this.params, ENV_KEYS)
+        const env = makeEnvironment(this.params, ENV_KEYS, lispToUpperSnakeCase)
         
         const { bucket, source } = this.params
         const bucketUri = `s3://${bucket}`
