@@ -16,6 +16,12 @@ inputs:
   aws-default-region:
     description: 'AWS Default Region'
     required: false
+  cloudfront-distribution:
+    description: 'CloudFront Distribution ID'
+    required: false
+  cloudfront-invalidate-paths:
+    description: 'CloudFront Invalidate Paths'
+    required: false
 runs:
   using: 'node12'
   main: 'src/main.js'

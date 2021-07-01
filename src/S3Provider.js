@@ -9,7 +9,11 @@ const ENV_KEYS = [
 ]
 
 const PARAMS_REQUIRED = ['bucket', 'source']
-const PARAMS_OPTIONAL = [...ENV_KEYS]
+const PARAMS_OPTIONAL = [
+    ...ENV_KEYS,
+    'cloudfront-distribution',
+    'cloudfront-invalidate-paths'
+]
 
 const validateParams = () => makeValidator(PARAMS_REQUIRED, PARAMS_OPTIONAL)
 
