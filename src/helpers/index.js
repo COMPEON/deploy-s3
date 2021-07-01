@@ -1,5 +1,5 @@
 module.exports = {
-    makeValidator: require('./validate'),
+    makeValidator: require('./validation'),
     makeEnvironment: require('./environment'),
     ...require('./transform'),
 }

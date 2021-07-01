@@ -1,5 +1,7 @@
 const core = require('@actions/core')
 
+const { lispToCamelCase } = require('./transform')
+
 /**
  * Validate action inputs based on a whitelist of required
  * and optional parameter names and return an object of matching
@@ -10,8 +12,14 @@ const core = require('@actions/core')
  * @returns {object} Matching inputs
  */
 function makeValidator(requiredInputs, optionalInputs) {
-    const required = requiredInputs.map(input => [input, core.getInput(input, {required: true})])
-    const optional = optionalInputs.map(input => [input, core.getInput(input, {required: false})])
+    const required = requiredInputs.map(input => [
+        lispToCamelCase(input),
+        core.getInput(input, {required: true})
+    ])
+    const optional = optionalInputs.map(input => [
+        lispToCamelCase(input),
+        core.getInput(input, {required: false})
+    ])
     const result = {}
     for ([key, value] of [...required, ...optional]) {
         result[key] = value
