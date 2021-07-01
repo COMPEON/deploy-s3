@@ -29,7 +29,7 @@ This action can be used to deploy code to Amazon S3.
 ## Usage
 
 ```yaml
-- uses: compeon/deploy-s3@v1
+- uses: compeon/deploy-s3
   with:
     bucket: my-s3-bucket
     source: dist
