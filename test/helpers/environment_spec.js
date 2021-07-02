@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 
-const { makeEnvironment, lispToUpperSnakeCase } = require('../../src/helpers')
+const { makeEnvironment } = require('../../src/helpers')
 
 describe('helpers/environment', () => {
     describe('#makeEnvironment', () => {
