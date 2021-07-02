@@ -20,22 +20,52 @@ const validateParams = () => validateInputs(PARAMS_REQUIRED, PARAMS_OPTIONAL)
 class S3Provider {
     constructor() {
         this.params = validateParams()
+        this.env = makeEnvironment(this.params.$raw, ENV_KEYS)
     }
 
     async deploy() {
-        const env = makeEnvironment(this.params, ENV_KEYS, lispToUpperSnakeCase)
-        
+        this._syncToS3()
+        this._invalidateCloudfrontPaths()
+    }
+
+    async _syncToS3() {
         const { bucket, source } = this.params
         const bucketUri = `s3://${bucket}`
 
-        const awsSyncOutput = await execa('aws', ['s3', 'sync', source, bucketUri], {
+        const awsOutput = await execa('aws', ['s3', 'sync', source, bucketUri], {
             preferLocal: true,
             extendEnv: true,
             all: true,
-            env
+            env: this.env,
         })
 
-        console.log(awsSyncOutput.all)
+        console.log(awsOutput.all)
+    }
+
+    async _invalidateCloudfrontPaths() {
+        const { cloudfrontDistribution, cloudfrontInvalidatePaths } = this.params
+
+        if (!cloudfrontDistribution || !cloudfrontInvalidatePaths) {
+            return
+        }
+
+        const awsArgs = [
+            'cloudfront',
+            'create-invalidation',
+            '--distribution-id',
+            cloudfrontDistribution,
+            '--paths',
+            cloudfrontInvalidatePaths
+        ]
+
+        const awsOutput = await execa('aws', awsArgs, {
+            preferLocal: true,
+            extendEnv: true,
+            all: true,
+            env: this.env,
+        })
+
+        console.log(awsOutput.all)
     }
 }
 
