@@ -5,7 +5,11 @@
         "node": true
     },
     "extends": [
-        "standard"
+        "standard",
+        "plugin:mocha/recommended"
+    ],
+    "plugins": [
+        "mocha"
     ],
     "parserOptions": {
         "ecmaVersion": 12
