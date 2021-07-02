@@ -1,6 +1,6 @@
 const execa = require('execa')
 
-const { makeValidator, makeEnvironment, lispToUpperSnakeCase } = require('./helpers')
+const { validateInputs, makeEnvironment, lispToUpperSnakeCase } = require('./helpers')
 
 const ENV_KEYS = [
     'aws-access-key-id',
@@ -15,7 +15,7 @@ const PARAMS_OPTIONAL = [
     'cloudfront-invalidate-paths'
 ]
 
-const validateParams = () => makeValidator(PARAMS_REQUIRED, PARAMS_OPTIONAL)
+const validateParams = () => validateInputs(PARAMS_REQUIRED, PARAMS_OPTIONAL)
 
 class S3Provider {
     constructor() {

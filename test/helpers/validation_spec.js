@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 
-const { makeValidator } = require('../../src/helpers')
+const { validateInputs } = require('../../src/helpers')
 
 const core = require('@actions/core')
 
@@ -24,9 +24,13 @@ describe('helpers/validation', () => {
             getInputStub.withArgs('pg-login').returns('admin')
             getInputStub.withArgs('pg-pass').returns('supersecret')
             // when
-            const params = makeValidator(requiredInputs, optionalInputs)
+            const params = validateInputs(requiredInputs, optionalInputs)
             // then
             expect(params).to.deep.equal({
+                $raw: {
+                    'pg-login': 'admin',
+                    'pg-pass': 'supersecret',
+                },
                 pgLogin: 'admin',
                 pgPass: 'supersecret',
             })
@@ -50,9 +54,12 @@ describe('helpers/validation', () => {
             const optionalInputs = ['pg-schema']
             getInputStub.withArgs('pg-schema').returns('unicorns')
             // when
-            const params = makeValidator(requiredInputs, optionalInputs)
+            const params = validateInputs(requiredInputs, optionalInputs)
             // then
             expect(params).to.deep.equal({
+                $raw: {
+                    'pg-schema': 'unicorns',
+                },
                 pgSchema: 'unicorns',
             })
         })
@@ -63,9 +70,9 @@ describe('helpers/validation', () => {
             const optionalInputs = []
             getInputStub.withArgs('pg-schema').returns('unicorns')
             // when
-            const params = makeValidator(requiredInputs, optionalInputs)
+            const params = validateInputs(requiredInputs, optionalInputs)
             // then
-            expect(params).to.deep.equal({})
+            expect(params).to.deep.equal({$raw: {}})
         })
     })
 })

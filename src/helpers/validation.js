@@ -11,20 +11,26 @@ const { lispToCamelCase } = require('./transform')
  * @param {string[]} optionalInputs Whitelist of optional input keys
  * @returns {object} Matching inputs
  */
-function makeValidator(requiredInputs, optionalInputs) {
+function validateInputs(requiredInputs, optionalInputs) {
     const required = requiredInputs.map(input => [
-        lispToCamelCase(input),
-        core.getInput(input, {required: true})
+        input, core.getInput(input, {required: true})
     ])
     const optional = optionalInputs.map(input => [
-        lispToCamelCase(input),
-        core.getInput(input, {required: false})
+        input, core.getInput(input, {required: false})
     ])
-    const result = {}
+    const rawResult = {}
     for ([key, value] of [...required, ...optional]) {
-        result[key] = value
+        rawResult[key] = value
     }
-    return result
+    const result = Object.fromEntries(
+        Object.entries(rawResult).map(([key, value]) => [
+            lispToCamelCase(key), value
+        ])
+    )
+    return {
+        $raw: rawResult,
+        ...result
+    }
 }
 
-module.exports = makeValidator
+module.exports = validateInputs
