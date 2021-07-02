@@ -67,8 +67,8 @@ describe('helpers/validation', () => {
         it('should validate non-existing optional parameters', () => {
             // given
             const requiredInputs = []
-            const optionalInputs = []
-            getInputStub.withArgs('pg-schema').returns('unicorns')
+            const optionalInputs = ['pg-schema']
+            getInputStub.withArgs('pg-schema').returns(null)
             // when
             const params = validateInputs(requiredInputs, optionalInputs)
             // then

@@ -17,7 +17,7 @@ function validateInputs(requiredInputs, optionalInputs) {
     ])
     const optional = optionalInputs.map(input => [
         input, core.getInput(input, {required: false})
-    ])
+    ]).filter(([, value]) => value !== undefined && value !== null)
     const rawResult = {}
     for ([key, value] of [...required, ...optional]) {
         rawResult[key] = value
