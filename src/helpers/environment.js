@@ -1,20 +1,18 @@
+const { lispToUpperSnakeCase } = require('./transform')
+
 /**
  * Build an environment object from a parameter object
- * using a whitelist of allowed keys and an optional
- * key transformation function.
+ * using a whitelist of allowed keys.
  * 
  * @param {object} params Input parameters
  * @param {string[]} allowedKeys Whitelisted env keys
- * @param {function} transformKey Key transformation function
  * @returns {object} The environment object
  */
-function makeEnvironment(params, allowedKeys, transformKey) {
-    const filteredKeyValuePairs = Object.entries(params)
+function makeEnvironment(params, allowedKeys) {
+    const env = Object.entries(params)
         .filter(([key,]) => allowedKeys.includes(key))
-    const transformedKeyValuePairs = transformKey !== undefined
-        ? filteredKeyValuePairs.map(([key, value]) => [transformKey(key), value])
-        : filteredKeyValuePairs
-    return Object.fromEntries(transformedKeyValuePairs)
+        .map(([key, value]) => [lispToUpperSnakeCase(key), value])
+    return Object.fromEntries(env)
 }
 
 module.exports = makeEnvironment

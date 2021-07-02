@@ -7,21 +7,23 @@ describe('helpers/environment', () => {
         it('should filter parameters according to allowed keys', () => {
             // given
             const params = {
-                foo: 123,
-                bar: 234,
-                baz: 345,
-                bax: 456,
+                'pg-login': 'admin',
+                'pg-pass': 'admin',
+                'pg-schema': 'secretstuff',
             }
             const allowedKeys = [
-                'foo', 'baz'
+                'pg-login', 'pg-pass', 'pg-schema'
             ]
             // when
             const result = makeEnvironment(params, allowedKeys)
             // then
-            expect(Object.keys(result)).to.have.lengthOf(2)
-            expect(result).to.have.property('foo', 123)
-            expect(result).to.have.property('baz', 345)
+            expect(result).to.deep.equal({
+                PG_LOGIN: 'admin',
+                PG_PASS: 'admin',
+                PG_SCHEMA: 'secretstuff',
+            })
         })
+
         it('should ignore allowed keys with no matching parameter', () => {
             // given
             const params = {
@@ -34,27 +36,10 @@ describe('helpers/environment', () => {
             // when
             const result = makeEnvironment(params, allowedKeys)
             // then
-            expect(Object.keys(result)).to.have.lengthOf(2)
-            expect(result).to.have.property('foo', 123)
-            expect(result).to.have.property('baz', 345)
-        })
-        it('should apply the specified transform to all keys', () => {
-            // given
-            const params = {
-                'pg-login': 'admin',
-                'pg-pass': 'admin',
-                'pg-schema': 'secretstuff',
-            }
-            const allowedKeys = [
-                'pg-login', 'pg-pass', 'pg-schema'
-            ]
-            // when
-            const result = makeEnvironment(params, allowedKeys, lispToUpperSnakeCase)
-            // then
-            expect(Object.keys(result)).to.have.lengthOf(3)
-            expect(result).to.have.property('PG_LOGIN', 'admin')
-            expect(result).to.have.property('PG_PASS', 'admin')
-            expect(result).to.have.property('PG_SCHEMA', 'secretstuff')
+            expect(result).to.deep.equal({
+                FOO: 123,
+                BAZ: 345,
+            })
         })
     })    
 })
