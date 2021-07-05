@@ -5,7 +5,7 @@ const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const core = require('@actions/core')
 
-const execaStub = sinon.stub()
+const execaStub = sinon.spy()
 const S3Provider = proxyquire('../src/S3Provider', {
   execa: execaStub
 })
@@ -87,6 +87,34 @@ describe('S3Provider', function () {
       new S3Provider().deploy()
       // then
       expect(execaStub).to.have.been.calledOnceWithExactly(...expectedArgs)
+    })
+
+    it('should call aws cloudfront with the right arguments', function () {
+      // given
+      getInputStub.withArgs('bucket', { required: true }).returns('testbucket-staging')
+      getInputStub.withArgs('source', { required: true }).returns('build')
+      getInputStub.withArgs('cloudfront-distribution', { required: false }).returns('abcdef')
+      getInputStub.withArgs('cloudfront-invalidate-paths', { required: false }).returns('/index.html')
+      const expectedArgs = [
+        'aws', [
+          'cloudfront',
+          'create-invalidation',
+          '--distribution-id',
+          'abcdef',
+          '--paths',
+          '/index.html'
+        ],
+        {
+          preferLocal: true,
+          extendEnv: true,
+          all: true,
+          env: {}
+        }
+      ]
+      // when
+      new S3Provider().deploy()
+      // then
+      expect(execaStub).to.have.been.calledWithExactly(...expectedArgs)
     })
   })
 })
