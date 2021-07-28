@@ -1,5 +1,5 @@
-name: 'COMPEON Deploy S3'
-description: 'Deploy code to Amazon S3'
+name: 'COMPEON Deploy Static Hosting'
+description: 'Deploy build artifacts to S3/CloudFront'
 inputs:
   bucket:
     description: 'Name of the S3 bucket'
