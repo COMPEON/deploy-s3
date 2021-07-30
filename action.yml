@@ -1,0 +1,30 @@
+name: 'COMPEON Deploy Static Hosting'
+description: 'Deploy build artifacts to S3/CloudFront'
+inputs:
+  bucket:
+    description: 'Name of the S3 bucket'
+    required: true
+  source:
+    description: 'Path to the code to be deployed'
+    required: true
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: false
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: false
+  aws-default-region:
+    description: 'AWS Default Region'
+    required: false
+  cloudfront-distribution:
+    description: 'CloudFront Distribution ID'
+    required: false
+  cloudfront-invalidate-paths:
+    description: 'CloudFront Invalidate Paths'
+    required: false
+runs:
+  using: 'node12'
+  main: 'src/main.js'
+branding:
+    icon: upload-cloud
+    color: blue
