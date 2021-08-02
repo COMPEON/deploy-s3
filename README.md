@@ -11,19 +11,19 @@ It also supports post-deploy CloudFront path invalidation.
 ### `source`
 > **Required** The directory containing the code to be deployed.
 
-### aws-access-key-id
+### `aws-access-key-id`
 > **Optional** The AWS access key ID.
 
-### aws-secret-access-key
+### `aws-secret-access-key`
 > **Optional** The AWS secret access key.
 
-### aws-default-region
+### `aws-default-region`
 > **Optional** The AWS default region.
 
-### cloudfront-distribution
+### `cloudfront-distribution`
 > **Optional** The CloudFront distribution ID.
 
-### cloudfront-invalidate-paths
+### `cloudfront-invalidate-paths`
 > **Optional** The paths to be invalidated on CloudFront.
 
 If this is left empty, no paths will be invalidated.
@@ -42,3 +42,7 @@ No outputs.
     cloudfront-distribution: ABC123DEF456
     cloudfront-invalidate-paths: /index.html
 ```
+
+## Development
+
+Build: `yarn build`
