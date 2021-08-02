@@ -1,6 +1,6 @@
 {
   "name": "deploy-s3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/main.js",
   "author": "Marco Quinten <mquinten@compeon.de>",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "execa": "^5.1.1"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.29.0",
     "chai": "^4.3.4",
     "eslint": "^7.29.0",
     "eslint-config-standard": "^16.0.3",
@@ -24,6 +25,10 @@
   },
   "scripts": {
     "lint": "eslint src test",
-    "test": "mocha test test/**/*.js"
+    "test": "mocha test test/**/*.js",
+    "build": "npx ncc build src/main.js --license licenses.txt",
+    "preversion": "yarn lint && yarn test",
+    "version": "yarn build && git add -A dist",
+    "postversion": "git push && git push --tags"
   }
 }
