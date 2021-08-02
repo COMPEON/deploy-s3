@@ -45,4 +45,12 @@ No outputs.
 
 ## Development
 
-Build: `yarn build`
+Use `yarn version` to increment the version number.
+
+| Command | Description |
+| ------- | ----------- |
+| `yarn version --patch` | Patch release |
+| `yarn version --minor` | Minor release |
+| `yarn version --major` | Major release |
+
+A build will be created, tagged and pushed in the process.
